@@ -23,7 +23,8 @@
 //
 // });
 
-// textarea elements
+// $(document).ready(function () {
+// text area elements using jquery (query selector in javascript)
 var time9am = $("#9am");
 var time10am = $("#10am");
 var time11am = $("#11am");
@@ -47,35 +48,43 @@ var timeElArray = [
 ];
 
 //displays current day and time at the top of page
-var timeDisplayEl = $("#currentDay");
+var currentTime = $("#currentDay");
 function displayTime() {
   var rightNow = dayjs().format("dddd, MMM DD, YYYY [at] hh:mm:ss a");
   timeDisplayEl.text(rightNow);
 }
 
-// function for handling clicks
+// var now = dayjs().format("kk");
+// // same as var now = currentTime.format("kk");
+// //for loop needed
+// i = 0;
+// i < Array.length;
+// i++;
+// array[i].removeClass("future past present");
+// if (now > array[i].data("hour"))
+//   // function for handling clicks
+//   array[i].addClass('past')
+//   else if now ===array[i].attr('data-hour') //same thing as .data('hour')
+//    else
+
+// $(".saveBttn").on("click", function (event) {
 var saveBttn = $(".saveBtn");
 function submitForm(event) {
   event.preventDefault();
 
-  var clickBtn = $(event.currentTarget);
-  var text = clickBtn.siblings("textarea");
-  var time = text.data("hour");
+  var clickedBtn = $(event.currentTarget); //whatever target, which is the button, was clicked is being saved to clickedbtn var
+  var text = clickedBtn.siblings("textarea"); //grabbing the text area which is a sibling to the button
+  var time = text.data("hour"); //grabbing the hour
+  console.log(text.data);
 
   localStorage.setItem("time" + time, text.val());
+
+  saveBttn.on("click", submitForm);
+
+  displayTime();
+  setInterval(displayTime, 1000);
+  // });
+
+  // for (var el of Array) { //arrau is an iterable object
+  //   el.val(localStorage)
 }
-
-saveBttn.on("click", submitForm);
-
-// function submitFrom(event) {
-//   event.preventDefault();
-
-//   var clickBtn = $(event.currentTarget);
-//   var text = clickBtn.siblings("textarea");
-//   var time = text.data("hour");
-
-//   localStorage.setItem("time" + time, text.val());
-// }
-
-displayTime();
-setInterval(displayTime, 1000);
