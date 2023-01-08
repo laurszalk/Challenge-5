@@ -26,7 +26,22 @@ function displayTime() {
   var rightNow = dayjs().format("dddd, MMM DD, YYYY [at] hh:mm:ss a");
   timeDisplay.text(rightNow);
 }
+//changes the colors of the time blocks
+//checks the current time against each of the time blocks on the calendar
+//to see if each block is past, present, or future and changes each color accordingly
 
+var currentTime = dayjs().format("hh");
+for (var i = 0; i < timeArray.length; i++) {
+  timeArray[i].removeClass("future past present");
+
+  if (currentTime > timeArray[i].data("hour")) {
+    timeArray[i].addClass("past");
+  } else if (currentTime === timeArray[i].attr("data-hour")) {
+    timeArray[i].addClass("present");
+  } else {
+    timeArray[i].addClass("future");
+  }
+}
 // function for handling clicks
 var saveBttn = $(".saveBtn");
 function submitForm(event) {
@@ -47,9 +62,9 @@ function showTask() {
     el.val(localStorage.getItem("time block " + el.data("hour")));
   }
 }
-showTask();
 
 saveBttn.on("click", submitForm);
 
+showTask();
 displayTime();
 setInterval(displayTime, 1000);
