@@ -1,3 +1,5 @@
+//these are the selectors, in javascript we'd use query selector get element by ID
+
 var time9am = $("#9am");
 var time10am = $("#10am");
 var time11am = $("#11am");
@@ -8,6 +10,7 @@ var time3pm = $("#3pm");
 var time4pm = $("#4pm");
 var time5pm = $("#5pm");
 
+//this is the array I'll use to loop through later
 var timeArray = [
   time9am,
   time10am,
@@ -42,29 +45,30 @@ for (var i = 0; i < timeArray.length; i++) {
     timeArray[i].addClass("future");
   }
 }
-// function for handling clicks
+// function for handling button clicks on the time blocks
 var saveBttn = $(".saveBtn");
 function submitForm(event) {
   event.preventDefault();
 
-  let btnClicked = $(event.currentTarget);
+  let btnClicked = $(event.currentTarget); //targeting the specific button clicked
 
-  let targetText = btnClicked.siblings("textarea");
+  let targetText = btnClicked.siblings("textarea"); //grabbing the specific text area that is the sibling to the button
 
-  let targetTimeBlock = targetText.data("hour");
+  let targetTimeBlock = targetText.data("hour"); //grabbing the specific hour
 
-  localStorage.setItem("time block " + targetTimeBlock, targetText.val());
+  localStorage.setItem("time block " + targetTimeBlock, targetText.val()); //setting item to local storage
 }
 
-// This shows what is in the local storage and displays it.
+// This shows what is in the local storage and displays it even after you close out and reopen the calendar.
 function showTask() {
   for (var el of timeArray) {
-    el.val(localStorage.getItem("time block " + el.data("hour")));
+    el.val(localStorage.getItem("time block " + el.data("hour"))); //getting item from local storage
   }
 }
 
-saveBttn.on("click", submitForm);
+saveBttn.on("click", submitForm); //submits the user's task when they click the save button on that time block
 
+//calling the functions
 showTask();
 displayTime();
-setInterval(displayTime, 1000);
+setInterval(displayTime, 1000); //updates the time by the second
